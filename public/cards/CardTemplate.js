@@ -138,7 +138,7 @@ const createOCardSVG = () => `
   <rect width="169" height="244" rx="12" fill="white" stroke="#E5E5E5"/>
   
   <!-- 중앙 검은 원 -->
-  <circle cx="84.5" cy="122" r="40" stroke="#000000" stroke-width="8" fill="none"/>
+  <circle cx="84.5" cy="122" r="40" stroke="#000000" stroke-width="10" fill="none" stroke-opacity="1"/>
 </svg>
 `;
 
@@ -183,7 +183,7 @@ const getFaceImage = (rank, isOneEyed, isRed) => {
     case 'J':
       return `
         <!-- 모자 -->
-        <path d="M-15 -35 L15 -35 L20 -25 L-20 -25 Z" fill="#FF0000"/>
+        <path d="M-15 -35 L15 -35 L20 -25 L-20 -25 Z" fill="#000000"/>
         <!-- 얼굴 -->
         <circle cx="0" cy="-15" r="16" fill="${faceColor}"/>
         <!-- 눈 -->
