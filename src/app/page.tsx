@@ -1,14 +1,21 @@
 "use client";
 
 import Image from "next/image";
-import { useTheme } from "next-themes";
+import { useTheme } from "../providers/ThemeProvider";
 import { useState, useEffect, useRef, useMemo } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const { resolvedTheme } = useTheme();
+  const { theme } = useTheme();
+  const router = useRouter();
   const [cardImages, setCardImages] = useState<string[]>([]);
   const containerRef1 = useRef<HTMLDivElement>(null);
   const containerRef2 = useRef<HTMLDivElement>(null);
+  
+  // 홈 페이지 사전 로딩
+  useEffect(() => {
+    router.prefetch('/home');
+  }, [router]);
   
   // 두 슬라이드에 대한 참조와 위치 상태 정의
   const scrollRef1 = useRef<HTMLDivElement>(null);
@@ -53,7 +60,7 @@ export default function Home() {
     const totalCardsWidth = cardImages.length * (CARD_WIDTH + CARD_GAP);
     const animationIds: number[] = [];
     
-    // 첫 번째 슬라이드 애니메이션 (왼쪽에서 오른쪽)
+    // 첫 번째 슬라이드 애니메이션
     if (scrollRef1.current) {
       const animate1 = () => {
         setScrollPosition1(prev => {
@@ -67,7 +74,7 @@ export default function Home() {
       animationIds.push(requestAnimationFrame(animate1));
     }
     
-    // 두 번째 슬라이드 애니메이션 (오른쪽에서 왼쪽)
+    // 두 번째 슬라이드 애니메이션
     if (scrollRef2.current) {
       const animate2 = () => {
         setScrollPosition2(prev => {
@@ -105,19 +112,34 @@ export default function Home() {
         src={src}
         alt={`카드 이미지 ${index + 1}`}
         fill
+        sizes="(max-width: 768px) 150px, 150px"
         className="object-contain"
       />
     </div>
   );
 
-  const logoSrc = resolvedTheme === 'dark' 
+  const logoSrc = theme === 'dark' 
     ? '/icons/logo_text_gausian.webp' 
     : '/icons/logo_text.webp';
+
+  const handleLogin = () => {
+    // 버튼 클릭 즉시 페이지 이동 전에 시각적 피드백 제공 
+    // (버튼 비활성화나 로딩 상태를 표시할 수 있음)
+    const button = document.activeElement;
+    if (button instanceof HTMLButtonElement) {
+      button.style.opacity = '0.7';
+    }
+    
+    // 작은 timeout으로 UI 변화를 볼 수 있는 시간 제공 후 페이지 이동
+    setTimeout(() => {
+      router.push('/home');
+    }, 10);
+  };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center space-y-4 p-4 w-full max-w-5xl mx-auto relative">
       <div className="absolute w-[200%] h-64 top-2/8 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-[30deg] origin-center">
-        {/* 첫 번째 카드 슬라이드 (왼쪽에서 오른쪽) */}
+        {/* 첫 번째 카드 슬라이드 */}
         <div 
           ref={containerRef1}
           className="absolute top-1/2 left-0 transform -translate-y-1/2 w-full overflow-hidden"
@@ -135,7 +157,7 @@ export default function Home() {
         </div>
       </div>
       <div className="absolute w-[200%] h-64 top-6/8 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-[30deg] origin-center">
-        {/* 두 번째 카드 슬라이드 (오른쪽에서 왼쪽) */}
+        {/* 두 번째 카드 슬라이드 */}
         <div 
           ref={containerRef2}
           className="absolute top-1/2 left-0 transform -translate-y-1/2 w-full overflow-hidden"
@@ -146,7 +168,7 @@ export default function Home() {
             style={{ 
               transform: `translateX(-${scrollPosition2}px)`,
               width: 'max-content',
-              direction: 'rtl' // 오른쪽에서 왼쪽으로 배치
+              direction: 'rtl'
             }}
           >
             {duplicatedCards.map((src, index) => renderCard(src, index, 2, true))}
@@ -159,18 +181,23 @@ export default function Home() {
           src={logoSrc}
           alt="Cardomoku Logo"
           fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 75vw, 66vw"
           priority
           className="object-contain"
         />
       </div>
       
       <div className="w-full sm:w-2/3 md:w-1/2 lg:w-2/5 h-12 sm:h-14 relative z-10">
-        <Image
-          src="/images/kakao_login_button.png"
-          alt="Kakao Login"
-          fill
-          className="object-contain cursor-pointer"
-        />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-300 dark:to-gray-700 opacity-70 rounded-lg blur-sm -z-10"></div>
+        <button onClick={handleLogin} className="w-full h-full relative">
+          <Image
+            src="/images/kakao_login_button.png"
+            alt="Kakao Login"
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 768px) 66vw, (max-width: 1024px) 50vw, 40vw"
+            className="object-contain cursor-pointer"
+          />
+        </button>
       </div>
     </div>
   );

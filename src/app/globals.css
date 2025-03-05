@@ -8,12 +8,16 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --header-bg: #f8f8f8;
+  --section-bg: #eeeeee;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #303030;
     --foreground: #ffffff;
+    --header-bg: #111214;
+    --section-bg: #1A1C20;
   }
 }
 
