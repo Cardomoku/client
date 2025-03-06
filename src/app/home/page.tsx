@@ -1,23 +1,47 @@
 'use client';
 
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/Header';
 import HomeSection from '@/components/HomeSection';
+import RoomTypeModal from '@/components/RoomTypeModal';
+
+type RoomType = '1vs1' | '1vs1vs1' | '2vs2';
+type ModalType = 'public' | 'create' | null;
 
 export default function Home() {
   const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalType, setModalType] = useState<ModalType>(null);
   
   // 각 모드별 룸 입장 핸들러
   const handleJoinPublic = () => {
-    router.push('/room/public');
+    setModalType('public');
+    setIsModalOpen(true);
   };
   
   const handleCreateRoom = () => {
-    router.push('/room/create');
+    setModalType('create');
+    setIsModalOpen(true);
   };
   
   const handleJoinPrivate = () => {
     router.push('/room/private');
+  };
+  
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setModalType(null);
+  };
+  
+  const handleSelectRoomType = (roomType: RoomType) => {
+    if (modalType === 'public') {
+      router.push(`/room/?type=${roomType}`);
+    } else if (modalType === 'create') {
+      router.push(`/room/?type=${roomType}`);
+    }
+    setIsModalOpen(false);
+    setModalType(null);
   };
   
   return (
@@ -49,6 +73,13 @@ export default function Home() {
           iconName="private"
         />
       </main>
+      
+      <RoomTypeModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onSelect={handleSelectRoomType}
+        modalType={modalType}
+      />
     </div>
   );
 }

@@ -9,7 +9,9 @@ interface CardProps {
 const Card = ({ src, index }: CardProps) => {
   return (
     <div 
-      className="w-[150px] h-[210px] flex-shrink-0 relative rounded-md overflow-hidden shadow-lg"
+      className="w-[150px] h-[210px] flex-shrink-0 relative rounded-md overflow-hidden shadow-lg 
+                transition-all duration-300 ease-in-out 
+                hover:scale-110 hover:z-10"
     >
       <Image
         src={src}

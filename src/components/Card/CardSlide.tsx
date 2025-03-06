@@ -82,7 +82,7 @@ const CardSlide = ({
         updatedIndices.forEach((cardIndex, i) => {
           resetStyles[cardIndex] = {
             transform: 'translateX(0)',
-            transition: 'none', // 트랜지션 없이 즉시 이동
+            transition: 'none',
           };
         });
         

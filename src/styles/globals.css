@@ -7,6 +7,7 @@
   --foreground: #171717;
 }
 
+/* 기본 스타일 */
 .style-1 {
   background-color: #f8f8f8;
   color: #111214;
@@ -22,6 +23,7 @@
   --foreground: #ffffff;
 }
 
+/* 다크 모드 기본 스타일 */
 .dark .style-1 {
   background-color: #111214;
   color: #FFFFFF;
