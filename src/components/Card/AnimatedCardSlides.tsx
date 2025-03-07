@@ -33,7 +33,7 @@ const AnimatedCardSlides = () => {
       {/* 두 번째 슬라이드 (아래쪽) */}
       <CardSlide 
         cards={bottomCards}
-        speed={1.5}
+        speed={2}
         direction="rtl"
         containerClass="flex items-center space-x-6 py-4 absolute w-[200%] h-64 top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-[30deg] origin-center"
       />

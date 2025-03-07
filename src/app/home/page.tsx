@@ -41,15 +41,15 @@ export default function Home() {
   };
   
   const handleJoinRoom = (code: string) => {
-    router.push(`/room/private?code=${code}`);
+    router.push(`/game/?code=${code}`);
     setIsRoomCodeModalOpen(false);
   };
   
   const handleSelectRoomType = (roomType: RoomType) => {
     if (modalType === 'public') {
-      router.push(`/room/?type=${roomType}`);
+      router.push(`/game/?type=${roomType}`);
     } else if (modalType === 'create') {
-      router.push(`/room/?type=${roomType}`);
+      router.push(`/game/?type=${roomType}`);
     }
     setIsModalOpen(false);
     setModalType(null);
