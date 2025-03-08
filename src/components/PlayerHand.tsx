@@ -76,35 +76,38 @@ const PlayerHand: React.FC = () => {
   
   return (
     <div className="h-full flex flex-col">
-      <h3 className="font-bold mb-1 text-gray-700 text-center md:text-left">내 카드</h3>
+      <h3 className="font-bold mb-1 text-gray-700 dark:text-gray-300 text-center md:text-left">내 카드</h3>
       
-      <div className="flex-1 flex flex-col">
-        {/* 모바일에서는 스크롤 가능한 가로 레이아웃, 데스크탑에서는 세로 레이아웃 */}
-        <div className="flex flex-row md:flex-col flex-wrap justify-center md:justify-start gap-1 overflow-auto flex-1">
-          {cards.map((card) => (
-            <div 
-              key={card.id}
-              className={`flex-shrink-0 aspect-[3/4] w-[calc(16.66%-4px)] md:w-full max-w-[80px] md:max-h-[calc((100%-70px)/6)] cursor-pointer relative flex items-center justify-center bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-md transition-all ${
-                card.selected 
-                  ? 'ring-2 ring-blue-500 dark:ring-blue-400 transform md:translate-x-2' 
-                  : 'hover:ring-1 hover:ring-blue-300 dark:hover:ring-blue-600'
-              }`}
-              onClick={() => handleCardSelect(card.id)}
-            >
-              <div className={`absolute top-1 left-1 text-xs ${getCardColor(card.suit)}`}>
-                {card.rank}
+      <div className="flex flex-col h-full">
+        {/* 통합 레이아웃 - 모바일: 6열 그리드, 데스크탑: 2열 x 3행 그리드 */}
+        <div className="flex-1 min-h-0 max-h-[calc(100%-50px)] px-1 flex items-center">
+          <div className="grid grid-cols-6 md:grid-cols-2 md:grid-rows-3 gap-1 md:gap-3 w-full">
+            {cards.map((card) => (
+              <div 
+                key={card.id}
+                className={`aspect-[3/4] w-full cursor-pointer relative flex items-center justify-center bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-md transition-all ${
+                  card.selected 
+                    ? 'ring-2 ring-blue-400 transform translate-y-[-4px]' 
+                    : 'hover:ring-1 hover:ring-blue-600'
+                }`}
+                onClick={() => handleCardSelect(card.id)}
+              >
+                <div className={`absolute top-0 left-1 text-[0.6rem] md:text-xs ${getCardColor(card.suit)}`}>
+                  {card.rank}
+                </div>
+                <div className={`text-xs sm:text-sm md:text-lg ${getCardColor(card.suit)}`}>
+                  {getSuitSymbol(card.suit)}
+                </div>
+                <div className={`absolute bottom-0 right-1 text-[0.6rem] md:text-xs ${getCardColor(card.suit)}`}>
+                  {card.rank}
+                </div>
               </div>
-              <div className={`text-sm sm:text-lg md:text-xl ${getCardColor(card.suit)}`}>
-                {getSuitSymbol(card.suit)}
-              </div>
-              <div className={`absolute bottom-1 right-1 text-xs ${getCardColor(card.suit)}`}>
-                {card.rank}
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
         
-        <div className="mt-1 md:mt-2">
+        {/* 버튼 영역 - 고정 높이 및 위치 */}
+        <div className="mt-auto pt-2 pb-2 flex-shrink-0 mb-2">
           <button 
             className="w-full py-2 md:py-3 bg-blue-800 hover:bg-blue-400 disabled:bg-gray-500 text-white rounded-md font-bold transition-all text-sm md:text-base"
             disabled={!selectedCard}

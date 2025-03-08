@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import Header from '@/components/Header';
 import PlayerSection from '../../components/PlayerSection';
 import GameBoard from '../../components/GameBoard';
 import PlayerHand from '../../components/PlayerHand';
@@ -55,9 +54,7 @@ export default function GamePage() {
   
   return (
     <div className="h-screen flex flex-col overflow-hidden">
-      <Header coins={108820} />
-      
-      {/* 통합 반응형 레이아웃 - 헤더 아래 모든 공간 사용 */}
+      {/* 통합 반응형 레이아웃 - 전체 화면 사용 */}
       <main className="flex-1 flex flex-col md:flex-row overflow-hidden">
         {/* 플레이어 섹션 (모바일: 상단, 데스크탑: 좌측) */}
         <div className="w-full md:w-64 h-[25vh] md:h-full order-1 md:order-1 flex-shrink-0 
@@ -80,7 +77,7 @@ export default function GamePage() {
         <div className="w-full md:w-64 h-[25vh] md:h-full order-3 md:order-3 flex-shrink-0
                        bg-gray-400
                        p-2 md:p-4 
-                       border-t md:border-t-0 md:border-l 
+                       border md:border md:border-l
                        md:m-2 md:rounded-lg overflow-auto">
           <PlayerHand />
         </div>
