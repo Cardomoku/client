@@ -1,5 +1,6 @@
 import { ServerAPICall } from "@/lib/axios";
 import { NextRequest, NextResponse } from "next/server";
+import { type NextFetchEvent } from "next/server";
 import axios from "axios";
 
 // 요청 헤더에서 인증 정보 가져오기
@@ -104,46 +105,65 @@ async function handleApiRequest(
   }
 }
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { path: string[] } }
-) {
-  const { path } = await params;
-
+// GET 요청 처리
+export async function GET(request: NextRequest) {
+  // URL에서 경로 가져오기
+  const pathSegments = request.nextUrl.pathname.split('/').filter(Boolean);
+  // api 세그먼트 제거
+  const path = pathSegments.slice(1);
+  
   return handleApiRequest(request, "GET", path);
 }
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: { path: string[] } }
-) {
-  const { path } = await params;
-  const body = await request.json();
+// POST 요청 처리
+export async function POST(request: NextRequest) {
+  const pathSegments = request.nextUrl.pathname.split('/').filter(Boolean);
+  const path = pathSegments.slice(1);
+  
+  let body;
+  try {
+    body = await request.json();
+  } catch (error) {
+    body = {};
+  }
+  
   return handleApiRequest(request, "POST", path, body);
 }
 
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: { path: string[] } }
-) {
-  const { path } = await params;
-  const body = await request.json();
+// PUT 요청 처리
+export async function PUT(request: NextRequest) {
+  const pathSegments = request.nextUrl.pathname.split('/').filter(Boolean);
+  const path = pathSegments.slice(1);
+  
+  let body;
+  try {
+    body = await request.json();
+  } catch (error) {
+    body = {};
+  }
+  
   return handleApiRequest(request, "PUT", path, body);
 }
 
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { path: string[] } }
-) {
-  const { path } = await params;
+// DELETE 요청 처리
+export async function DELETE(request: NextRequest) {
+  const pathSegments = request.nextUrl.pathname.split('/').filter(Boolean);
+  const path = pathSegments.slice(1);
+  
   return handleApiRequest(request, "DELETE", path);
 }
 
-export async function PATCH(
-  request: NextRequest,
-  { params }: { params: { path: string[] } }
-) {
-  const { path } = await params;
-  const body = await request.json();
+// PATCH 요청 처리
+export async function PATCH(request: NextRequest) {
+  const pathSegments = request.nextUrl.pathname.split('/').filter(Boolean);
+  const path = pathSegments.slice(1);
+  
+  let body;
+  try {
+    body = await request.json();
+  } catch (error) {
+    body = {};
+  }
+  
   return handleApiRequest(request, "PATCH", path, body);
 }
