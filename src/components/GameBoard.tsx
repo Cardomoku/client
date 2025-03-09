@@ -1,7 +1,14 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Card, CardSuit, CardRank } from '@/types/game';
+import Image from 'next/image';
+import { boardCardImages } from '@/utils/cardUtils';
+
+// 카드 인터페이스 (간소화)
+interface Card {
+  image: string;
+  isEmpty: boolean;
+}
 
 const GameBoard: React.FC = () => {
   // 10x10 게임 보드 상태
@@ -15,27 +22,16 @@ const GameBoard: React.FC = () => {
     const initBoard = () => {
       const newBoard: Card[][] = [];
       
+      // boardCardImages를 이용해 10x10 그리드로 변환
+      let imageIndex = 0;
       for (let i = 0; i < 10; i++) {
         const row: Card[] = [];
         for (let j = 0; j < 10; j++) {
-          // 모서리에는 조커 카드 배치
-          if ((i === 0 && j === 0) || (i === 0 && j === 9) || 
-              (i === 9 && j === 0) || (i === 9 && j === 9)) {
-            row.push({ suit: 'joker', rank: 'joker' });
-          } else {
-            // 이미지의 게임판처럼 임의의 카드 생성
-            const suits: CardSuit[] = ['hearts', 'diamonds', 'clubs', 'spades'];
-            const ranks: CardRank[] = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
-            
-            // 임의로 보드의 약 70%는 비어있게 설정
-            if (Math.random() < 0.7) {
-              row.push({ suit: 'empty', rank: 'empty' });
-            } else {
-              const randomSuit = suits[Math.floor(Math.random() * suits.length)];
-              const randomRank = ranks[Math.floor(Math.random() * ranks.length)];
-              row.push({ suit: randomSuit, rank: randomRank });
-            }
-          }
+          const cardPath = boardCardImages[imageIndex++];
+          row.push({
+            image: cardPath,
+            isEmpty: cardPath.includes('o_o') // 조커 카드가 비어있는 칸 역할
+          });
         }
         newBoard.push(row);
       }
@@ -70,30 +66,6 @@ const GameBoard: React.FC = () => {
     };
   }, []);
   
-  // 카드 모양에 따른 색상 가져오기
-  const getCardColor = (suit: CardSuit): string => {
-    if (suit === 'hearts' || suit === 'diamonds') {
-      return 'text-red-500';
-    } else if (suit === 'clubs' || suit === 'spades') {
-      return 'text-black dark:text-white';
-    } else if (suit === 'joker') {
-      return 'text-black dark:text-white';
-    }
-    return '';
-  };
-  
-  // 카드 모양 기호 가져오기
-  const getSuitSymbol = (suit: CardSuit): string => {
-    switch(suit) {
-      case 'hearts': return '♥';
-      case 'diamonds': return '♦';
-      case 'clubs': return '♣';
-      case 'spades': return '♠';
-      case 'joker': return '★';
-      default: return '';
-    }
-  };
-  
   return (
     <div className="w-full h-full flex items-center justify-center" ref={containerRef}>
       <div 
@@ -109,23 +81,18 @@ const GameBoard: React.FC = () => {
           row.map((card, colIndex) => (
             <div 
               key={`${rowIndex}-${colIndex}`}
-              className={`aspect-[3/4] w-8 sm:w-10 md:w-12 flex items-center justify-center bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm ${
-                card.suit !== 'empty' ? 'relative' : 'opacity-50'
-              }`}
+              className={`aspect-[3/4] w-12 sm:w-14 md:w-16 flex items-center justify-center rounded-md shadow-sm`}
             >
-              {card.suit !== 'empty' && (
-                <>
-                  <div className={`absolute top-1 left-1 text-xs ${getCardColor(card.suit)}`}>
-                    {card.rank !== 'joker' ? card.rank : ''}
-                  </div>
-                  <div className={`text-xl ${getCardColor(card.suit)}`}>
-                    {getSuitSymbol(card.suit)}
-                  </div>
-                  <div className={`absolute bottom-1 right-1 text-xs ${getCardColor(card.suit)}`}>
-                    {card.rank !== 'joker' ? card.rank : ''}
-                  </div>
-                </>
-              )}
+              <div className="relative w-full h-full">
+                <Image 
+                  src={card.image}
+                  alt={`Card ${rowIndex}-${colIndex}`}
+                  fill
+                  className="object-contain rounded-md"
+                  sizes="(max-width: 768px) 40px, (max-width: 1200px) 50px, 60px"
+                  priority={rowIndex < 3} // 우선 로드할 카드
+                />
+              </div>
             </div>
           ))
         ))}
@@ -134,4 +101,4 @@ const GameBoard: React.FC = () => {
   );
 };
 
-export default GameBoard; 
+export default GameBoard;

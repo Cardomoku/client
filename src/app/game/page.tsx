@@ -57,7 +57,7 @@ export default function GamePage() {
       {/* 통합 반응형 레이아웃 - 전체 화면 사용 */}
       <main className="flex-1 flex flex-col md:flex-row overflow-hidden">
         {/* 플레이어 섹션 (모바일: 상단, 데스크탑: 좌측) */}
-        <div className="w-full md:w-64 h-[25vh] md:h-full order-1 md:order-1 flex-shrink-0 
+        <div className="w-full md:w-64 h-[12.5vh] md:h-full order-1 md:order-1 flex-shrink-0 
                        bg-gray-400
                        p-2 md:p-4 
                        border-0
@@ -66,7 +66,7 @@ export default function GamePage() {
         </div>
         
         {/* 게임판 (중앙) */}
-        <div className="flex-1 h-[50vh] md:h-full order-2 md:order-2 
+        <div className="flex-1 h-[75vh] md:h-full order-2 md:order-2 
                        bg-gray-200
                        overflow-hidden
                        md:m-2 md:rounded-lg">
@@ -74,7 +74,7 @@ export default function GamePage() {
         </div>
         
         {/* 플레이어 손패 (모바일: 하단, 데스크탑: 우측) */}
-        <div className="w-full md:w-64 h-[25vh] md:h-full order-3 md:order-3 flex-shrink-0
+        <div className="w-full md:w-64 h-[23vh] md:h-full order-3 md:order-3 flex-shrink-0
                        bg-gray-400
                        p-2 md:p-4 
                        border-0
