@@ -79,18 +79,18 @@ const PlayerSection: React.FC<PlayerSectionProps> = ({
     <div className="h-full flex flex-col">
       {/* 남은 카드 - 모바일에서는 가로, 데스크탑에서는 세로로 배치 */}
       <div className="flex md:flex-col items-center md:items-start mb-1 md:mb-2">
-        <h3 className="font-bold text-sm md:text-base text-gray-700 dark:text-gray-300 mr-2 md:mr-0 md:mb-1">남은 카드</h3>
+        <h3 className="font-bold text-sm md:text-base text-gray-700 mr-2 md:mr-0 md:mb-1">남은 카드</h3>
         <div className="flex items-center">
           <div className="w-5 h-7 md:w-8 md:h-12 bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-500 rounded-md shadow-md flex items-center justify-center text-xs md:text-sm font-bold">
           </div>
-          <div className="ml-1 md:ml-2 text-base md:text-lg font-bold">
+          <div className="ml-1 md:ml-2 text-base text-gray-800 md:text-lg font-bold">
             {remainingCards} 장
           </div>
         </div>
       </div>
 
       {/* 플레이어 목록 */}
-      <h3 className="font-bold text-sm md:text-base mt-1 mb-1 text-gray-700 dark:text-gray-300">플레이어</h3>
+      <h3 className="font-bold text-sm md:text-base mt-1 mb-1 text-gray-700">플레이어</h3>
       <div className="flex-1 flex md:flex-col gap-1 overflow-auto">
         {players.map((player) => (
           <div 

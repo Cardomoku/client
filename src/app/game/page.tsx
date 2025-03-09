@@ -27,20 +27,20 @@ export default function GamePage() {
       
       const newPlayers: Player[] = [];
       
-      for (let i = 0; i < count; i++) {
+      for (let i = 1; i <= count; i++) {
         let team: number;
         
         if (roomType === '1vs1') {
-          team = i + 1; // 1 또는 2 (레드 또는 블루)
+          team = i; // 1 또는 2 (레드 또는 블루)
         } else if (roomType === '2vs2') {
-          team = Math.floor(i / 2) + 1; // 1 또는 2 (레드팀 또는 블루팀)
+          team = i % 2; // 1 또는 2 (레드팀 또는 블루팀)
         } else { // 1vs1vs1
-          team = i + 1; // 1, 2, 3 (레드, 블루, 그린)
+          team = i; // 1, 2, 3 (레드, 블루, 그린)
         }
         
         newPlayers.push({
           id: `player-${i}`,
-          nickname: `플레이어 ${i + 1}`,
+          nickname: `플레이어 ${i}`,
           profileImage: i % 2 === 0 ? '/images/profile_light.svg' : '/images/profile_dark.svg',
           team
         });
@@ -60,7 +60,7 @@ export default function GamePage() {
         <div className="w-full md:w-64 h-[25vh] md:h-full order-1 md:order-1 flex-shrink-0 
                        bg-gray-400
                        p-2 md:p-4 
-                       border-b md:border-b-0 md:border-r 
+                       border-0
                        md:m-2 md:rounded-lg overflow-auto">
           <PlayerSection players={players} remainingCards={remainingCards} roomType={roomType} />
         </div>
@@ -77,7 +77,7 @@ export default function GamePage() {
         <div className="w-full md:w-64 h-[25vh] md:h-full order-3 md:order-3 flex-shrink-0
                        bg-gray-400
                        p-2 md:p-4 
-                       border md:border md:border-l
+                       border-0
                        md:m-2 md:rounded-lg overflow-auto">
           <PlayerHand />
         </div>

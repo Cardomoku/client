@@ -76,7 +76,7 @@ const PlayerHand: React.FC = () => {
   
   return (
     <div className="h-full flex flex-col">
-      <h3 className="font-bold mb-1 text-gray-700 dark:text-gray-300 text-center md:text-left">내 카드</h3>
+      <h3 className="font-bold mb-1 text-gray-700 text-center md:text-left">내 카드</h3>
       
       <div className="flex flex-col h-full">
         {/* 통합 레이아웃 - 모바일: 6열 그리드, 데스크탑: 2열 x 3행 그리드 */}
@@ -109,7 +109,7 @@ const PlayerHand: React.FC = () => {
         {/* 버튼 영역 - 고정 높이 및 위치 */}
         <div className="mt-auto pt-2 pb-2 flex-shrink-0 mb-2">
           <button 
-            className="w-full py-2 md:py-3 bg-blue-800 hover:bg-blue-400 disabled:bg-gray-500 text-white rounded-md font-bold transition-all text-sm md:text-base"
+            className="w-full py-2 md:py-3 bg-blue-800 hover:bg-blue-400 disabled:bg-gray-500 text-white disabled:text-gray-400 rounded-md font-bold transition-all text-sm md:text-base"
             disabled={!selectedCard}
           >
             칩 놓기
